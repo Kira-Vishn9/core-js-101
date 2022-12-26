@@ -65,8 +65,8 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.replace('Hello, ', '').replace('!', '');
 }
 
 
@@ -202,8 +202,36 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let rect = '';
+  for (let i = 0; i < height; i += 1) {
+    let str = '';
+    for (let j = 0; j < width; j += 1) {
+      if (i === 0) {
+        if (j === 0) {
+          str += '┌';
+        } else if (j === width - 1) {
+          str += '┐';
+        } else {
+          str += '─';
+        }
+      } else if (i === height - 1) {
+        if (j === 0) {
+          str += '└';
+        } else if (j === width - 1) {
+          str += '┘';
+        } else {
+          str += '─';
+        }
+      } else if (j === 0 || j === width - 1) {
+        str += '│';
+      } else {
+        str += ' ';
+      }
+    }
+    rect += `${str}\n`;
+  }
+  return rect;
 }
 
 
@@ -223,8 +251,23 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz';
+  let res = '';
+  for (let i = 0; i < str.length; i += 1) {
+    const init = chars.indexOf(str[i].toLowerCase());
+    if (init >= 0) {
+      const calc = init + 13 >= chars.length ? (init + 13) % chars.length : init + 13;
+      if (str[i] === str[i].toUpperCase()) {
+        res += chars[calc].toUpperCase();
+      } else {
+        res += chars[calc];
+      }
+    } else {
+      res += str[i];
+    }
+  }
+  return res;
 }
 
 /**
